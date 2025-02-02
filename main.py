@@ -16,6 +16,49 @@ import cv2
 import numpy as np
 import pyrealsense2 as rs #Python Version 3.11 (or older) needed
 
+target_object = input("What are you looking for? \n")
+
+def get_bottle_direction(detections, depth, crop_start, expected, width, profile):
+    min_distance = float("inf")
+    direction = ""
+    bottle_position = None
+    depth_scale = profile.get_device().first_depth_sensor().get_depth_scale()
+
+    for i in range(detections.shape[2]):
+        conf = detections[0, 0, i, 2]
+        if conf > 0.9:  # Confidence threshold
+            label = int(detections[0, 0, i, 1])
+            className = classNames[label]
+
+            if className == target_object:
+                xmin = int(detections[0, 0, i, 3] * expected)
+                xmax = int(detections[0, 0, i, 5] * expected)
+                center_x = (xmin + xmax) / 2
+
+                # Map detected object region to depth image
+                scale = height / expected
+                xmin_depth = int((xmin + crop_start) * scale)
+                xmax_depth = int((xmax + crop_start) * scale)
+                object_depth = depth[:, xmin_depth:xmax_depth].astype(float) * depth_scale
+                dist, _, _, _ = cv2.mean(object_depth)
+
+                if dist < min_distance:  # Keep the nearest bottle
+                    min_distance = dist
+                    bottle_position = center_x
+
+    if bottle_position is not None:
+        third_width = expected / 3  # Divide image into left, center, right
+        if bottle_position < third_width:
+            direction = "Turn left"
+        elif bottle_position > 2 * third_width:
+            direction = "Turn right"
+        else:
+            direction = "Go straight ahead"
+
+        print(f"Nearest {target_object} detected at {min_distance:.3f} meters. {direction}")
+
+    return direction
+
 # Setup RealSense pipeline
 pipe = rs.pipeline()
 cfg = rs.config()
@@ -118,11 +161,11 @@ while True:
                 object_depth = object_depth * depth_scale
                 dist, _, _, _ = cv2.mean(object_depth)
 
-                print(f"Detected {className} at {dist:.3f} meters")
+                direction = get_bottle_direction(detections, depth, crop_start, expected, width, profile)
 
-                # **Trigger message if bottle is 0.1 meters away**
-                if className == "bottle" and 0.195 <= dist <= 0.205:
-                    print("🔹 Hello, I reached a bottle!")
+                # **Trigger message if target_object is 0.1 meters away**
+                if className == target_object and 0.195 <= dist <= 0.205:
+                    print("Hello, I reached", target_object)
                     pipe.stop()  # Stop the RealSense pipeline
                     cv2.destroyAllWindows()  # Close all OpenCV windows
                     exit()  # Fully terminate the script
