@@ -1,17 +1,3 @@
-# ==============================================
-# 📌 Project Information
-# ==============================================
-# 🔹 Base Code: Intel RealSense (GitHub)
-#    → https://github.com/IntelRealSense/librealsense/blob/jupyter/notebooks/distance_to_object.ipynb
-#    (Verified as of 01.02.2025)
-#
-# 🔹 Object Detection Model: MobileNetSSD
-#    → Downloaded from: https://github.com/chuanqi305/MobileNet-SSD
-#    - Model Files:
-#      - deploy.prototxt → MobileNetSSD architecture
-#      - mobilenet_iter_73000.caffemodel → Pretrained weights
-# ==============================================
-
 import cv2
 import numpy as np
 import pyrealsense2 as rs #Python Version 3.11 (or older) needed
