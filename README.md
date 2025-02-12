@@ -1,6 +1,4 @@
-==============================================
 📌 Project Information
-==============================================
 
 🔹 Main Project:
 The goal of this project is to develop a robot capable of mapping an entire room. The generated map will then be uploaded to a database, allowing other users to download and utilize it for their own robots.
