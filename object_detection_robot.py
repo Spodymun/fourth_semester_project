@@ -18,7 +18,7 @@
 
 import cv2
 import numpy as np
-import pyrealsense2 as rs #Python Version 3.11 (or older) needed
+import pyrealsense2 as rs
 import os
 import requests
 
@@ -31,95 +31,83 @@ ROBOT_IP = "192.168.178.53"
 # Get the target object from user input
 TARGET_OBJECT = input("What are you looking for? \n")
 
-#Sends control commands to the robot via HTTP request
+
 def move_robot(command):
     url = f"http://{ROBOT_IP}/js?json={command}"
     response = requests.get(url)
     content = response.text
 
-#Determines the direction towards the target object and sends commands to the robot
-def get_bottle_direction(detections, depth, crop_start, expected, width, profile):
+
+def get_object_direction(detections, depth, width, height, profile):
     min_distance = float("inf")
     direction = "Stop"
-    bottle_position = None
+    object_position = None
     depth_scale = profile.get_device().first_depth_sensor().get_depth_scale()
 
     for i in range(detections.shape[2]):
         conf = detections[0, 0, i, 2]
-        if conf > 0.9:  # Confidence threshold
+        if conf > 0.9:
             label = int(detections[0, 0, i, 1])
             className = classNames[label]
 
             if className == TARGET_OBJECT:
-                xmin = int(detections[0, 0, i, 3] * expected)
-                xmax = int(detections[0, 0, i, 5] * expected)
+                xmin = int(detections[0, 0, i, 3] * width)
+                ymin = int(detections[0, 0, i, 4] * height)
+                xmax = int(detections[0, 0, i, 5] * width)
+                ymax = int(detections[0, 0, i, 6] * height)
                 center_x = (xmin + xmax) / 2
 
-                # Map detected object region to depth image
-                scale = height / expected
-                xmin_depth = int((xmin + crop_start) * scale)
-                xmax_depth = int((xmax + crop_start) * scale)
-                object_depth = depth[:, xmin_depth:xmax_depth].astype(float) * depth_scale
+                object_depth = depth[ymin:ymax, xmin:xmax].astype(float) * depth_scale
                 dist, _, _, _ = cv2.mean(object_depth)
 
-                if dist < min_distance:  # Keep the nearest object
+                if dist < min_distance:
                     min_distance = dist
-                    bottle_position = center_x
+                    object_position = center_x
 
-    if bottle_position is not None:
-        third_width = expected / 3  # Divide image into left, center, right
-        if bottle_position < third_width:
+    if object_position is not None:
+        third_width = width / 3
+        if object_position < third_width:
             direction = "Turn left"
-        elif bottle_position > 2 * third_width:
+        elif object_position > 2 * third_width:
             direction = "Turn right"
         else:
             direction = "Go straight ahead"
 
         print(f"Nearest {TARGET_OBJECT} detected at {min_distance:.3f} meters. {direction}")
 
-        # Stop if close enough
         if min_distance <= 0.2:
             direction = "Stop"
 
-        # Send command to robot based on detected direction
         if direction == "Turn left":
-            move_robot('{"T":1,"L":-0.1,"R":0.1}')  # Slow left turn
+            move_robot('{"T":1,"L":-0.1,"R":0.1}')
         elif direction == "Turn right":
-            move_robot('{"T":1,"L":0.1,"R":-0.1}')  # Slow right turn
+            move_robot('{"T":1,"L":0.1,"R":-0.1}')
         elif direction == "Go straight ahead":
-            move_robot('{"T":1,"L":0.2,"R":0.2}')  # Slow forward movement
+            move_robot('{"T":1,"L":0.2,"R":0.2}')
         elif direction == "Stop":
-            move_robot('{"T":0,"L":0.0,"R":0.0}')  # Stop
+            move_robot('{"T":0,"L":0.0,"R":0.0}')
 
     return direction
 
-# Setup RealSense pipeline
+
 pipe = rs.pipeline()
 cfg = rs.config()
-
-# Define the target image size (expected height in pixels)
-expected = 300  # Set image height (e.g., 300px)
-
-# Enable depth and color streams
 cfg.enable_stream(rs.stream.depth, 848, 480, rs.format.z16, 30)
 cfg.enable_stream(rs.stream.color, 848, 480, rs.format.bgr8, 30)
 profile = pipe.start(cfg)
 align = rs.align(rs.stream.color)
 colorizer = rs.colorizer()
 
-# Load MobileNet SSD model
 prototxt_path = "/home/robi/fourth_semester_project/MobileNetSSD_deploy.prototxt"
 model_path = "/home/robi/fourth_semester_project/MobileNetSSD_deploy.caffemodel"
 net = cv2.dnn.readNetFromCaffe(prototxt_path, model_path)
 
-# Class names from MobileNet SSD
 classNames = ("background", "aeroplane", "bicycle", "bird", "boat",
               "bottle", "bus", "car", "cat", "chair",
               "cow", "diningtable", "dog", "horse",
               "motorbike", "person", "pottedplant",
               "sheep", "sofa", "train", "tvmonitor")
 
-# Allowed objects for detection
 allowed_objects = {"chair", "person", "bottle"}
 
 while True:
@@ -135,17 +123,10 @@ while True:
 
         color = np.asanyarray(color_frame.get_data())
         depth = np.asanyarray(depth_frame.get_data())
-
         height, width = color.shape[:2]
-        aspect = width / height
-        resized_image = cv2.resize(color, (round(expected * aspect), expected))
-        crop_start = round(expected * (aspect - 1) / 2)
-        crop_img = resized_image[0:expected, crop_start:crop_start+expected]
 
-        blob = cv2.dnn.blobFromImage(crop_img, 0.007843, (expected, expected), 127.53, False)
+        blob = cv2.dnn.blobFromImage(color, 0.007843, (300, 300), 127.53, False)
         net.setInput(blob, "data")
-
-        # Get model detections
         detections = net.forward("detection_out")
 
         for i in range(detections.shape[2]):
@@ -155,15 +136,13 @@ while True:
                 className = classNames[label]
 
                 if className in allowed_objects:
-                    direction = get_bottle_direction(detections, depth, crop_start, expected, width, profile)
-
+                    direction = get_object_direction(detections, depth, width, height, profile)
                     if direction == "Stop":
                         print("Target reached. Stopping...")
                         pipe.stop()
                         cv2.destroyAllWindows()
                         exit()
 
-        # Exit loop if ESC key is pressed
         if cv2.waitKey(1) & 0xFF == 27:
             break
 
@@ -171,6 +150,5 @@ while True:
         print(f"Error: {e}")
         continue
 
-# Stop RealSense pipeline and close windows
 pipe.stop()
 cv2.destroyAllWindows()
