@@ -10,7 +10,7 @@ Main Project:
    - (Intel RealSense D415 camera)
    - A2M8 - R4 LiDAR sensor
 
-🔹 Ros 2 Installation:
+🔹 Ros 2 Installation (Verified as of 03.03.2025)
    - https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html
    
 ==============================================
@@ -23,18 +23,17 @@ Side Project:
    - Raspberry Pi 5 + Active Cooler
    - Intel RealSense D415 camera
 
-🔹 Base Code: Intel RealSense (GitHub)
+🔹 Base Code: Intel RealSense (GitHub) (Verified as of 01.02.2025)
    - https://github.com/IntelRealSense/librealsense/blob/jupyter/notebooks/distance_to_object.ipynb
-   (Verified as of 01.02.2025)
 
-🔹 Object Detection Model: MobileNetSSD
+🔹 Object Detection Model: MobileNetSSD (Verified as of 01.02.2025)
    - Downloaded from: https://github.com/chuanqi305/MobileNet-SSD
    - Model Files:
      - deploy.prototxt → MobileNetSSD architecture
      - mobilenet_iter_73000.caffemodel → Pre-trained weights
 
 🔹 PyRealSense2 for Raspberry Pi 5
-   - Currently, there is no "official" method from Intel, but this approach worked for me:
+   - Currently, there is no "official" method from Intel, but this approach worked for me (Verified as of 01.02.2025) :
    - https://www.robotexchange.io/t/how-to-setup-the-intel-realsense-software-and-pyrealsense2-library-in-ubuntu-on-a-raspberryi-pi-5/3414
 
 ==============================================
