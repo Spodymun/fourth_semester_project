@@ -8,8 +8,11 @@ The goal of this project is to develop a robot capable of mapping an entire room
    → Waveshare UGV02
    → Raspberry Pi 5 + Active Cooler
    → (Intel RealSense D415 camera)
-   → (2D/3D LiDAR sensor)
+   → A2M8 - R4 LiDAR sensor
 
+🔹 Ros 2 Installation:
+   → https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html
+   
 ==============================================
 
 🔹 Side Project:
