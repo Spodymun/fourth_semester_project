@@ -26,7 +26,7 @@ import requests
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 
 # Fixed IP address of the robot
-ROBOT_IP = "192.168.178.53"
+ROBOT_IP = "192.168.137.43"
 
 # Get the target object from user input
 TARGET_OBJECT = input("What are you looking for? \n")
