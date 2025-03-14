@@ -12,6 +12,13 @@ Main Project:
 
 🔹 Ros 2 Installation (Verified as of 03.03.2025)
    - https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html
+
+🔹 Creating a Workspace on your pi (Verified as of 14.03.2025)
+   - https://docs.ros.org/en/foxy/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html
+   - Some Tips:   
+     - My Workspace is called "ws_lidar", you probably wanna keep it that way so that there is no problem when using my scripts
+     - When you've done that you can clone my repo in your "~/ws_lidar/src" folder 
+       -> https://github.com/Spodymun/ros2-lidar-explorer
    
 ==============================================
 
