@@ -26,7 +26,7 @@ import requests
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 
 # Fixed IP address of the robot
-ROBOT_IP = "192.168.137.43"
+ROBOT_IP = "192.168.137.56"
 
 # Get the target object from user input
 TARGET_OBJECT = input("What are you looking for? \n")
@@ -36,7 +36,6 @@ def move_robot(command):
     url = f"http://{ROBOT_IP}/js?json={command}"
     response = requests.get(url)
     content = response.text
-
 
 def get_object_direction(detections, depth, width, height, profile):
     min_distance = float("inf")
