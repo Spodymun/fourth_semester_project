@@ -1,46 +1,40 @@
-📌 Project Information
-==============================================
+# 🤖 Robot Mapping and Object Tracking
 
-Main Project:
-- The goal of this project is to develop a robot capable of mapping an entire room. The generated map will then be uploaded to a database, allowing other users to download and utilize it for their own robots.
+## 🗺️ Main Project: Room Mapping Robot
+The goal of this project is to develop a robot capable of mapping an entire room. The generated map will then be uploaded to a database, allowing other users to download and utilize it for their own robots.
 
-🔹 Hardware in Use:
-   - Waveshare UGV02
-   - Raspberry Pi 5 + Active Cooler
-   - (Intel RealSense D415 camera)
-   - A2M8 - R4 LiDAR sensor
+### Hardware in Use:
+- **Waveshare UGV02** - Unmanned Ground Vehicle
+- **Raspberry Pi 5** + Active Cooler
+  - Ubuntu Noble 24.04
+- **Intel RealSense D415 Camera**
+- **A2M8 - R4 LiDAR Sensor**
 
-🔹 Ros 2 Installation (Verified as of 03.03.2025)
-   - https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html
+You can explore the code for this project [here](https://github.com/Spodymun/ros2-lidar-explorer).
 
-🔹 Creating a Workspace on your pi (Verified as of 14.03.2025)
-   - https://docs.ros.org/en/foxy/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html
-   - Some Tips:   
-     - My Workspace is called "ws_lidar", you probably wanna keep it that way so that there is no problem when using my scripts
-     - When you've done that you can clone my repo in your "~/ws_lidar/src" folder 
-       -> https://github.com/Spodymun/ros2-lidar-explorer
-   
-==============================================
+---
 
-Side Project:
-- Additionally, the robot should be able to track and pursue a specific object within the mapped area.
+## 🎯 Side Project: Object Tracking and Pursuit
+Additionally, the robot should be capable of tracking and pursuing a specific object within the mapped area. This feature builds on the mapping system to enhance interaction with objects in the environment.
 
-🔹 Hardware in Use:
-   - Waveshare UGV02
-   - Raspberry Pi 5 + Active Cooler
-   - Intel RealSense D415 camera
+### Hardware in Use:
+- **Waveshare UGV02** - Unmanned Ground Vehicle
+- **Raspberry Pi 5** + Active Cooler
+  - Ubuntu Noble 24.04
+- **Intel RealSense D415 Camera**
 
-🔹 Base Code: Intel RealSense (GitHub) (Verified as of 01.02.2025)
-   - https://github.com/IntelRealSense/librealsense/blob/jupyter/notebooks/distance_to_object.ipynb
+### Dependencies and Base Code (Verified as of 01.02.2025):
+- **Intel RealSense**: [GitHub Repo](https://github.com/IntelRealSense/librealsense/blob/jupyter/notebooks/distance_to_object.ipynb)
+  
+### Object Detection Model: MobileNetSSD (Verified as of 01.02.2025)
+- **Model Files**:
+  - `deploy.prototxt`: MobileNetSSD architecture
+  - `mobilenet_iter_73000.caffemodel`: Pre-trained weights
 
-🔹 Object Detection Model: MobileNetSSD (Verified as of 01.02.2025)
-   - Downloaded from: https://github.com/chuanqi305/MobileNet-SSD
-   - Model Files:
-     - deploy.prototxt → MobileNetSSD architecture
-     - mobilenet_iter_73000.caffemodel → Pre-trained weights
+You can download the model files from [MobileNet-SSD GitHub](https://github.com/chuanqi305/MobileNet-SSD).
 
-🔹 PyRealSense2 for Raspberry Pi 5
-   - Currently, there is no "official" method from Intel, but this approach worked for me (Verified as of 01.02.2025) :
-   - https://www.robotexchange.io/t/how-to-setup-the-intel-realsense-software-and-pyrealsense2-library-in-ubuntu-on-a-raspberryi-pi-5/3414
+### PyRealSense2 Setup for Raspberry Pi 5 (Verified as of 01.02.2025)
+While Intel does not provide an official method for setting up the **PyRealSense2** library on Raspberry Pi 5, the following guide has been tested and verified:
+- [Setup Guide](https://www.robotexchange.io/t/how-to-setup-the-intel-realsense-software-and-pyrealsense2-library-in-ubuntu-on-a-raspberryi-pi-5/3414)
 
-==============================================
+---
