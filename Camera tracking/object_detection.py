@@ -49,8 +49,8 @@ profile = pipe.start(cfg)
 align = rs.align(rs.stream.color)
 colorizer = rs.colorizer()
 
-prototxt_path = "MobileNetSSD_deploy.prototxt"
-model_path = "MobileNetSSD_deploy.caffemodel"
+prototxt_path = "../MobileNetSSD_deploy.prototxt"
+model_path = "../MobileNetSSD_deploy.caffemodel"
 net = cv2.dnn.readNetFromCaffe(prototxt_path, model_path)
 
 classNames = ("background", "aeroplane", "bicycle", "bird", "boat",

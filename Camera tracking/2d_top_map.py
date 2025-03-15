@@ -51,7 +51,7 @@ def plot_heightmap(heightmap):
 
 # Hauptprogramm
 if __name__ == "__main__":
-    csv_file = "filtered_pointcloud.csv"  # Ersetze mit deinem Dateinamen
+    csv_file = "pointclouds/filtered_pointcloud.csv"  # Ersetze mit deinem Dateinamen
     if not os.path.exists(csv_file):
         raise FileNotFoundError(f"Datei {csv_file} nicht gefunden!")
 
