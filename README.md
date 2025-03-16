@@ -23,7 +23,7 @@ Additionally, the robot should be capable of tracking and pursuing a specific ob
   - Ubuntu Noble 24.04
 - **Intel RealSense D415 Camera**
 
-### Dependencies and Base Code (Verified as of 01.02.2025):
+### Base Code (Verified as of 01.02.2025):
 - **Intel RealSense**: [GitHub Repo](https://github.com/IntelRealSense/librealsense/blob/jupyter/notebooks/distance_to_object.ipynb)
   
 ### Object Detection Model: MobileNetSSD (Verified as of 01.02.2025)
@@ -37,4 +37,10 @@ You can download the model files from [MobileNet-SSD GitHub](https://github.com/
 While Intel does not provide an official method for setting up the **PyRealSense2** library on Raspberry Pi 5, the following guide has been tested and verified:
 - [Setup Guide](https://www.robotexchange.io/t/how-to-setup-the-intel-realsense-software-and-pyrealsense2-library-in-ubuntu-on-a-raspberryi-pi-5/3414)
 
+### Install Dependencies
+Run the following command to update your system and install necessary dependencies:
+```bash
+sudo apt update && sudo apt install -y python3-opencv python3-numpy python3-requests
+pip install pyrealsense2
+```
 ---
