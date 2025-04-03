@@ -37,8 +37,9 @@ You can download the model files from [MobileNet-SSD GitHub](https://github.com/
 While Intel does not provide an official method for setting up the **PyRealSense2** library on Raspberry Pi 5, the following guide has been tested and verified:
 - [Setup Guide](https://www.robotexchange.io/t/how-to-setup-the-intel-realsense-software-and-pyrealsense2-library-in-ubuntu-on-a-raspberryi-pi-5/3414)
 
-### Install Dependencies
-I didn’t have any issues installing **PyRealSense2** using the guide I published.  
-Nevertheless, I’ve already installed all the dependencies from my [Lidar Project](https://github.com/Spodymun/ros2-lidar-explorer).
+#### Install Dependencies
+
+I didn’t encounter any issues following the [installation guide](https://www.robotexchange.io/t/how-to-setup-the-intel-realsense-software-and-pyrealsense2-library-in-ubuntu-on-a-raspberryi-pi-5/3414) I published above.  
+However, it's worth noting that I had already installed several libraries and dependencies as part of my [Lidar Project](https://github.com/Spodymun/ros2-lidar-explorer), which may have contributed to the smooth setup process.
 
 ---
