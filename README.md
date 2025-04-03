@@ -38,9 +38,7 @@ While Intel does not provide an official method for setting up the **PyRealSense
 - [Setup Guide](https://www.robotexchange.io/t/how-to-setup-the-intel-realsense-software-and-pyrealsense2-library-in-ubuntu-on-a-raspberryi-pi-5/3414)
 
 ### Install Dependencies
-Run the following command to update your system and install necessary dependencies:
-```bash
-sudo apt update && sudo apt install -y python3-opencv python3-numpy python3-requests
-pip install pyrealsense2
-```
+I didn’t have any issues installing **PyRealSense2** using the guide I published.  
+Nevertheless, I’ve already installed all the dependencies from my [Lidar Project](https://github.com/Spodymun/ros2-lidar-explorer).
+
 ---
