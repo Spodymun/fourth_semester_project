@@ -8,6 +8,7 @@ The goal of this project is to develop a robot capable of mapping an entire room
 - **Raspberry Pi 5** + Active Cooler
   - Ubuntu Noble (Pro) 24.04
 - **A2M8 LiDAR Sensor**
+- **Intel RealSense D415 Camera**
 
 You can explore the code for this project [here](https://github.com/Spodymun/ros2-lidar-explorer).
 
